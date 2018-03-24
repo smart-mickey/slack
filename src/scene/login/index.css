@@ -1,4 +1,99 @@
-.App-header {
-    background: green;
-    height: 120px;
+.container {
+    background-color: #F6F9FC;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto
+}
+
+.login-form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px 1px rgba(0, 0, 0, 0.1);
+    padding: 40px 0px 80px 0px;
+    margin: 100px 0 100px 0;
+    max-width: 500px
+}
+
+.tab-button {
+    font-size: 1.8rem;
+    color: #898E96;
+    padding: 0px;
+    text-align: center;
+    display: inline-block;
+    min-width: 100px;
+    height: 30px;
+    background-color: transparent;
+    border-color: transparent;
+    outline: 0px;
+}
+
+.tab-button-selected {
+    font-size: 1.8rem;
+    color: black;
+    padding: 0px;
+    text-align: center;
+    display: inline-block;
+    min-width: 100px;
+    height: 30px;
+    background-color: transparent;
+    border-color: transparent;
+    outline: 0px;
+}
+
+.tab-button:hover {
+    color: black;
+}
+
+.underLine
+{
+    content: '';
+    background: #4FC5FF;
+    border-radius: 2px;
+    height: 4px;
+    display: block;
+    position: relative;
+    top: 5px;
+    max-width: 100px;
+    width: 70%
+}
+
+.title {
+    font-size: 2.2rem;
+    padding-top: 40px;
+    line-height: 30px;
+    color: #4FC5FF;
+}
+
+.description {
+    font-size: 1.6rem;
+    color: #898E96;
+    padding-bottom: 30px;
+}
+
+.loginButton {
+    background: #4FC5FF;
+    color: white;
+    border: none;
+    font-size: 1.6rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.7px;
+    width: 100%;
+    border-radius: 4px;
+    height: auto;
+    text-transform: capitalize;
+    padding: 15px;
+    position: relative
+}
+
+.spinnerView {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 20px;
+    top: 10px
+}
+
+.forgotPassword {
+    font-size: 1.4rem;
+    color: #898E96;
 }

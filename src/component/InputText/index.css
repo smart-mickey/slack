@@ -1,0 +1,33 @@
+.inputField {
+    position: relative;
+}
+
+.inputFieldIndex {
+    position: absolute;
+    left: 7px;
+    top: -10px;
+    color: #4FC5FF;
+    background-color: white;
+    padding: 0px 10px
+}
+
+.inputBox {
+    border: 1px solid #D6DAE1;
+    background: white;
+    border-radius: 4px;
+    color: #373D47;
+    font-size: 1.6rem;
+    font-weight: 300;
+    display: block;
+    padding: 15px;
+    width: 100%;
+    margin: 0 0 10px 0;
+    box-sizing: border-box;
+}
+
+.error {
+    display: block;
+    padding: 0 0 20px 0px;
+    color: #FA656F;
+    text-align: left
+}

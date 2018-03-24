@@ -2,4 +2,5 @@ export const WELCOME = 'WELCOME';
 export const INIT_TEST_DATA = 'INIT_TEST_DATA';
 export const LOGIN_FIREBASE_USER = 'LOGIN_FIREBASE_USER';
 export const SELECTED_PROJECT = 'SELECTED_PROJECT';
+export const MY_DATA = 'MY_DATA';
 

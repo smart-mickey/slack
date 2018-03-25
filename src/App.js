@@ -14,7 +14,11 @@ import reducer from './redux/reducer/index';
 const loggerMiddleware = createLogger();
 const promiseMiddleware = promise();
 
-const middleware = compose(applyMiddleware(promiseMiddleware, thunkMiddleware, loggerMiddleware), window.devToolsExtension ? window.devToolsExtension() : f => f);
+const middleware = compose(applyMiddleware(
+  promiseMiddleware,
+  thunkMiddleware,
+  loggerMiddleware,
+), window.devToolsExtension ? window.devToolsExtension() : f => f);
 const store = createStore(reducer, {}, middleware);
 const history = syncHistoryWithStore(browserHistory, store);
 injectTapEventPlugin();

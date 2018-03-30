@@ -2,15 +2,18 @@ import { combineReducers } from 'redux';
 import * as types from '../action/types';
 import createReducer from './createReducer';
 
-const Me = createReducer({}, {
+const Me = createReducer({
+  email: '',
+  username: '',
+}, {
   [types.MY_DATA](state, action) {
     return action.payload;
   },
 });
 
-const loginReducer = combineReducers({
+const authReducer = combineReducers({
   Me,
 });
 
-export default loginReducer;
+export default authReducer;
 

@@ -10,7 +10,9 @@
     "foreman": "^2.0.0",
     "marked": "^0.3.17",
     "mongoose": "^5.0.11",
-    "nodemon": "^1.17.2"
+    "nodemon": "^1.17.2",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4"
   },
   "scripts": {
     "start": "node index.js",

@@ -7,7 +7,7 @@ export const saveUserData = user => ({
 });
 
 export const login = (param, callback) => (dispatch) => {
-  fetch(API.API_LOGIN, {
+  fetch(API.LOGIN, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -21,6 +21,7 @@ export const login = (param, callback) => (dispatch) => {
         callback('error', res.data);
       } else {
         callback('success', res.message);
+        dispatch(saveUserData(res.message));
       }
     })
     .catch((e) => {
@@ -29,7 +30,7 @@ export const login = (param, callback) => (dispatch) => {
 };
 
 export const register = (param, callback) => (dispatch) => {
-  fetch(API.API_REGISTER, {
+  fetch(API.REGISTER, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -42,7 +43,7 @@ export const register = (param, callback) => (dispatch) => {
       if (res.message === 'exist') {
         callback('error', 'User is already exist or signup error');
       } else {
-        callback(res.message, res.data);
+        callback('success', res.message);
         dispatch(saveUserData(res.data));
       }
     })

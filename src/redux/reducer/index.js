@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import loginReducer from './auth';
+import authReducer from './auth';
+import chatReducer from './chat';
 
 const reducer = combineReducers({
-  loginReducer,
+  authReducer,
+  chatReducer,
   routing: routerReducer,
 });
 

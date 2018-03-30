@@ -1,6 +1,6 @@
-'use strict';
 
-var express = require('express'),
+
+let express = require('express'),
   morgan = require('morgan'),
   bodyParser = require('body-parser'),
   compress = require('compression'),
@@ -10,7 +10,7 @@ var express = require('express'),
 
 module.exports.initMiddleware = function (app) {
   app.use(compress({
-    filter: function (req, res) {
+    filter(req, res) {
       return (/json|text/).test(res.getHeader('Content-Type'));
     },
     level: 9,
@@ -26,7 +26,7 @@ module.exports.initMiddleware = function (app) {
 };
 
 module.exports.initHelmetHeaders = function (app) {
-  var SIX_MONTHS = 15778476;
+  const SIX_MONTHS = 15778476;
 
   app.use(helmet.frameguard());
   app.use(helmet.xssFilter());
@@ -41,7 +41,7 @@ module.exports.initHelmetHeaders = function (app) {
 };
 
 module.exports.initCORS = function (app) {
-  app.use(function (req, res, next) {
+  app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type,Accept,Authorization');
@@ -58,7 +58,7 @@ module.exports.initMoudlesServerRoutes = function (app) {
 };
 
 module.exports.init = function () {
-  var app = express();
+  const app = express();
   this.initMiddleware(app);
   this.initHelmetHeaders(app);
   this.initHelmetHeaders(app);

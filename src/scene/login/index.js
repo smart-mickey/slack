@@ -3,6 +3,7 @@ import Spinner from 'react-spin';
 import Notifications, { notify } from 'react-notify-toast';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { ActionCreators } from '../../redux/action';
 import InputText from '../../component/InputText';
 
@@ -50,6 +51,11 @@ class Login extends React.Component {
     this.setState({ isLoading: false });
   }
 
+  gotoChatPage(msg) {
+    localStorage.setItem('profile', JSON.stringify(msg));
+    browserHistory.push('/chat');
+  }
+
   signUpwithEmailPassword() {
     const {
       username, email, password, confirm, isLoading,
@@ -74,7 +80,8 @@ class Login extends React.Component {
       if (status === 'error') {
         this.showToast(msg, 'error');
       } else {
-        this.showToast('Registered Successfully!', 'success');
+        // this.showToast('Registered Successfully!', 'success');
+        this.gotoChatPage(msg);
       }
     });
   }
@@ -95,7 +102,8 @@ class Login extends React.Component {
       if (status === 'error') {
         this.showToast(msg, 'error');
       } else {
-        this.showToast(`Welcome, ${msg.username}`, 'success');
+        // this.showToast(`Welcome, ${msg.username}`, 'success');
+        this.gotoChatPage(msg);
       }
     });
   }
@@ -129,7 +137,7 @@ class Login extends React.Component {
     return (
       <div className="container">
         <Notifications />
-        <div className="row">
+        <div className="row full-width">
           <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
             <center>
               <div className="login-form">

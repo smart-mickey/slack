@@ -9,7 +9,10 @@ import createLogger from 'redux-logger';
 import promise from 'redux-promise-middleware';
 
 import Login from './scene/login';
+import Chat from './scene/chat';
 import reducer from './redux/reducer/index';
+import './App.css';
+
 
 const loggerMiddleware = createLogger();
 const promiseMiddleware = promise();
@@ -30,6 +33,9 @@ class App extends React.Component {
         <Router history={history}>
           <Route path="/">
             <IndexRoute component={Login} />
+          </Route>
+          <Route path="/chat">
+            <IndexRoute component={Chat} />
           </Route>
         </Router>
       </Provider>

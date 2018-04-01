@@ -44,7 +44,7 @@ const filterByTime = (chat, day) => {
   const CT = new Date().getTime();
   const result = [];
   chat.map((item, index) => {
-    console.log(`${item.updated_at}, ${CT + day}`);
+    // console.log(`${item.updated_at}, ${CT + day}`);
     if (item.updated_at > CT - day) result.push(item);
     return true;
   });

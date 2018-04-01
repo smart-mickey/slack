@@ -1,23 +1,25 @@
 .chat_container {
     background: white;
-    border: 2px solid #333;
+    border: 20px solid #333;
     border-radius: 6px;
     margin: 30px 0px;
-    height: 90%
+    height: 90%;
 }
 
 .chat-header {
     width: 100%;
     height: 60px;
-    padding: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
     background: #333
 }
 
+.chat-header h2 {
+    flex: 1
+}
+
 .chat-logout-button {
-    position: absolute;
     right: 20px
 }
 
@@ -26,15 +28,15 @@
     height: 120px;
     display: flex;
     flex-direction: row;
-    align-items: center;
     background: #333
 }
 
 .message-input {
     max-height: 100px;
-    margin: 20px;
+    margin: 20px 20px 0px 0px;
     flex: 1;
-    border-radius: 4px
+    border-radius: 4px;
+    padding: 10px
 }
 
 .message-send-button {
@@ -48,7 +50,7 @@
     height: auto;
     text-transform: capitalize;
     height: 40px;
-    margin: 20px;
+    margin: 20px 0px;
 }
 
 .chat-message-view {
@@ -75,7 +77,8 @@
 .chat-time-line div{
     border-bottom: 1px solid #BBB;
     flex: 1;
-    height: 10px
+    height: 10px;
+    margin: 0px 10px
 }
 
 .chat-time-line span{

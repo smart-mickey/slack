@@ -55,3 +55,7 @@ h2 {
   color: white;
   margin: 0px
 }
+
+.icon-button[button] {
+  background-color: transparent
+}

@@ -59,6 +59,8 @@ class Chat extends React.Component {
   }
 
   onSendMessage() {
+    const { message } = this.state;
+    if (message.replace(/ /g, '').length === 0) return;
     const param = `userId=${this.props.me._id}&channel=general&message=${this.state.message}`;
     this.props.sendMessage(param, (status, data) => {
       if (status === 'error') alert(data);
@@ -102,7 +104,7 @@ class Chat extends React.Component {
     return (
       <div className="container">
         <div className="row full">
-            <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 full-height">
+            <div className="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 full-height">
               <div className="chat_container flex">
                 <div className="chat-header">
                   <h2>Welcome, {this.props.me.username}</h2>
@@ -153,7 +155,7 @@ class Chat extends React.Component {
                     ref={(ref) => {
                       this.messageField = ref;
                     }}
-                    placeholder="type here..."
+                    placeholder="Type here..."
                     maxLength={512}
                     className="message-input"
                     onChange={e => this.onTypeMessage(e)}

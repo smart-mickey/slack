@@ -24,7 +24,9 @@ class Chat extends React.Component {
     const { channelName, timeFor } = this.props;
     this.socket = io('http://localhost:3002');
     this.socket.on('message added', (channel) => {
-      this.props.setChatData(channel.chat);
+      console.log(channel);
+      // this.props.setChatData(channel.chat);
+      this.props.listenChatData(channelName, timeFor);
     });
     this.socket.on('Server error', (result) => {
       alert(result);
@@ -32,14 +34,6 @@ class Chat extends React.Component {
     this.socket.on('Channel Removed', (result) => {
       alert(result);
     });
-
-    this.socket.emit(
-      'message added',
-      {
-        msg: this.state.message,
-        channelName: this.props.channelName,
-      },
-    );
 
     const profile = localStorage.getItem('profile');
     if (profile == null) {
@@ -50,12 +44,13 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-
-    // this.props.listenChatData(channelName, timeFor);
+    const { channelName, timeFor } = this.props;
+    this.props.listenChatData(channelName, timeFor);
   }
 
-  onListenChatData(chatData) {
-    console.log(chatData);
+  componentDidUpdate() {
+    const objDiv = document.getElementById('messageList');
+    objDiv.scrollTop = objDiv.scrollHeight;
   }
 
   onTypeMessage(e) {
@@ -68,6 +63,7 @@ class Chat extends React.Component {
       if (status === 'error') alert(data);
       else {
         setTimeout(() => {
+          this.setState({ message: '' });
           this.socket.emit(
             'message added',
             {
@@ -100,7 +96,7 @@ class Chat extends React.Component {
                   Log Out
                   </button>
                 </div>
-                <div className="full chat-message-view">
+                <div className="full chat-message-view" id="messageList">
                 {
                   this.props.chatData.map(chat => (
                       <ChatBubble

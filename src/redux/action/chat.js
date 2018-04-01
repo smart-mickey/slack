@@ -35,7 +35,7 @@ export const listenChatData = (channelName, timeFor) => (dispatch) => {
   })
     .then(data => data.json())
     .then((res) => {
-      console.log('Chat Data: ', JSON.stringify(res));
+      dispatch(setChatData(res.message));
     })
     .catch((e) => {
       console.log('Chat Data Error: ', e.toString());

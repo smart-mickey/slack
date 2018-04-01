@@ -14,7 +14,7 @@ const io = require('socket.io')(http);
 const hPort = process.env.PORT || 3002;
 
 http.listen(hPort, () => {
-  console.log(`listening on *:${hPort}`);
+  console.log(`Socket listening on *:${hPort}`);
 });
 
 router.post('/register', (req, res) => {
@@ -40,10 +40,21 @@ router.post('/login', (req, res) => {
   });
 });
 
+const filterByTime = (chat, day) => {
+  const CT = new Date().getTime();
+  const result = [];
+  chat.map((item, index) => {
+    console.log(`${item.updated_at}, ${CT + day}`);
+    if (item.updated_at > CT - day) result.push(item);
+    return true;
+  });
+  return result;
+};
+
 router.get('/fetchChatData/:channel/:day', (req, res) => {
   const channel_name = req.params.channel;
   const day = req.params.day * 86400000;
-  console.log(channel_name);
+
   Channel.ChannelModel.findOne({ channel_name })
     .exec((err, channel) => {
       if (err) {
@@ -51,7 +62,8 @@ router.get('/fetchChatData/:channel/:day', (req, res) => {
       } else if (!channel) {
         res.json({ status: 'error', message: 'The Chat room has been removed.' });
       } else {
-        res.json({ status: 'success', message: channel.chat });
+        const filteredChat = filterByTime(channel.chat, day);
+        res.json({ status: 'success', message: filteredChat });
       }
     });
 });
@@ -108,7 +120,6 @@ router.post('/sendMessage', (req, res) => {
             }
           },
         );
-        console.log(JSON.stringify(chat_history));
         res.json({ status: 'success', message: 'Sent message successfully!' });
       }
     });
@@ -117,17 +128,7 @@ router.post('/sendMessage', (req, res) => {
 io.on('connection', (socket) => {
   console.log('Socket connected');
   socket.on('message added', (param) => {
-    console.log(`Added message: ${param.msg}`);
-    Channel.ChannelModel.findOne({ channel_name: param.channelName })
-      .exec((err, channel) => {
-        if (err) {
-          socket.emit('Server error', err.toString());
-        } else if (!channel) {
-          socket.emit('Channel Removed', 'This channel has been removed');
-        } else {
-          socket.emit('message added', channel);
-        }
-      });
+    io.sockets.emit('message added', {});
   });
 });
 

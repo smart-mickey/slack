@@ -50,7 +50,7 @@
 }
 
 .chat-message-view {
-    overflow: scroll
+    overflow-y: scroll
 }
 
 .chat-bubble-left {

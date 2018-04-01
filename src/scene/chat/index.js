@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 import { ActionCreators } from '../../redux/action';
 import InputText from '../../component/InputText';
 import * as API from '../../redux/action/api';
+import * as Constant from '../../lib/constant';
 import ChatBubble from './bubble';
 import './index.css';
 
@@ -81,12 +82,28 @@ class Chat extends React.Component {
     browserHistory.push('/');
   }
 
+  getDate(ts) {
+    const time = new Date(ts);
+    const CT = new Date();
+    const week = Constant.weekdays[time.getDay()];
+    const month = Constant.months[time.getMonth()];
+    let day = time.getDate();
+    if (day % 10 === 1) day += 'st';
+    else if (day % 10 === 2) day += 'nd';
+    else if (day % 10 === 3) day += 'rd';
+    else day += 'th';
+    if (time.getFullYear() === CT.getFullYear()) {
+      return `${week}, ${month} ${day}`;
+    }
+    return `${week}, ${month} ${day}, ${time.getFullYear()}`;
+  }
+
   render() {
     return (
       <div className="container">
         <div className="row full">
             <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 full-height">
-              <div className="chat_container full-height flex">
+              <div className="chat_container flex">
                 <div className="chat-header">
                   <h2>Welcome, {this.props.me.username}</h2>
                   <button
@@ -98,15 +115,37 @@ class Chat extends React.Component {
                 </div>
                 <div className="full chat-message-view" id="messageList">
                 {
-                  this.props.chatData.map(chat => (
-                      <ChatBubble
-                        chat = {chat}
-                        userId={chat.userId}
-                        key={chat.userId + chat.updated_at}
-                      >
-                        {chat.message}
-                      </ChatBubble>
-                    ))
+                  this.props.chatData.map((chat) => {
+                    const time = this.getDate(chat.updated_at);
+                    if (this.prevTime === time) {
+                      return (
+                        <ChatBubble
+                          chat = {chat}
+                          userId={chat.userId}
+                          key={chat.userId + chat.updated_at}
+                        >
+                          {chat.message}
+                        </ChatBubble>
+                      );
+                    }
+                    this.prevTime = time;
+                    return (
+                      <div key={chat.userId + chat.updated_at}>
+                        <div className="chat-time-line">
+                          <div/>
+                          <span>{time}</span>
+                          <div/>
+                        </div>
+                        <ChatBubble
+                          chat = {chat}
+                          userId={chat.userId}
+                          key={chat.userId + chat.updated_at}
+                        >
+                          {chat.message}
+                        </ChatBubble>
+                      </div>
+                    );
+                  })
                 }
                 </div>
                 <div className="chat-input-container">

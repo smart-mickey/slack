@@ -1,7 +1,9 @@
 .chat_container {
-    height: 100%;
     background: white;
     border: 2px solid #333;
+    border-radius: 6px;
+    margin: 30px 0px;
+    height: 90%
 }
 
 .chat-header {
@@ -50,14 +52,35 @@
 }
 
 .chat-message-view {
-    overflow-y: scroll
+    overflow-y: scroll;
+    padding: 20px 0px
+}
+
+.chat-message {
+    margin-left: 65px
 }
 
 .chat-bubble-left {
     display: flex;
     flex-direction: row;
     padding: 10px;
-    align-items: center
+}
+
+.chat-time-line {
+    display: flex;
+    flex-direction: row;
+    height: 20px
+}
+
+.chat-time-line div{
+    border-bottom: 1px solid #BBB;
+    flex: 1;
+    height: 10px
+}
+
+.chat-time-line span{
+    padding: 0px 20px;
+    color: #BBB
 }
 
 .chat-bubble-right {
@@ -84,10 +107,18 @@
     font-weight: bold
 }
 
+.chat-bubble-message {
+    padding-right: 20px
+}
+
 .chat-bubble-message p{
     margin: 0px
 }
 
 .chat-bubble-me {
     background: blue    
+}
+
+.chat-bubble-time {
+    color: #BBB
 }

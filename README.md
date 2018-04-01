@@ -37,8 +37,13 @@ $ npm install
 ### Run the App
 
 ```bash
+Open a terminal in the project folder and run the following commands
 $ cd .
-$ npm run dev
+$ npm start
+
+Open another terminal and run the following commands
+$ cd ./server
+$ npm start
 ```
 
 By default, you can visit the API in your web browser at `http://localhost:3001`

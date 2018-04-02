@@ -44,7 +44,7 @@ export const register = (param, callback) => (dispatch) => {
         callback('error', 'User is already exist or signup error');
       } else {
         callback('success', res.message);
-        dispatch(saveUserData(res.data));
+        dispatch(saveUserData(res.message));
       }
     })
     .catch((e) => {

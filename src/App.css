@@ -56,6 +56,9 @@ h2 {
   margin: 0px
 }
 
-.icon-button[button] {
-  background-color: transparent
+button[type="transparent"] {
+  background-color: transparent;
+  border: 0px;
+  outline:none;
+  padding: 0px
 }

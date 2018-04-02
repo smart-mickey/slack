@@ -16,29 +16,34 @@ export default class InputText extends React.Component {
   }
 
   render() {
+    const {
+      isError, text, placeholder, errorText, type, maxLength,
+    } = this.props;
     return (
       <div className="inputField">
           <input
               className="inputBox"
-              style={{ borderColor: this.props.isError ? '#FA656F' : null }}
+              style={{ borderColor: isError ? '#FA656F' : null }}
               onFocus={() => this.setState({ onFocus: true })}
               onBlur={() => this.setState({ onFocus: false })}
               onChange={e => this.props.onChange(e.target.value)}
               type="text"
-              value={this.props.text}
-              placeholder={this.state.onFocus ? '' : this.props.placeholder}
+              value={text}
+              type={type}
+              maxLength={maxLength}
+              placeholder={this.state.onFocus ? '' : placeholder}
               ref={(ref) => {
                   this.signUpEmail = ref;
               }}
           />
           {
-              this.props.isError ?
-              <p className="error">{this.props.errorText}</p>
+              isError ?
+              <p className="error">{errorText}</p>
               : null
           }
           {
               this.state.onFocus ?
-              <p className="inputFieldIndex">{this.props.placeholder}</p>
+              <p className="inputFieldIndex">{placeholder}</p>
               : null
           }
       </div>
@@ -52,6 +57,8 @@ InputText.propTypes = {
   onChange: PropTypes.func.isRequired,
   errorText: PropTypes.string,
   text: PropTypes.string.isRequired,
+  maxLength: PropTypes.number,
+  type: PropTypes.string,
 };
 
 InputText.defaultProps = {
@@ -59,4 +66,6 @@ InputText.defaultProps = {
   placeholder: '',
   isError: false,
   errorText: '',
+  maxLength: 20,
+  type: 'text',
 };

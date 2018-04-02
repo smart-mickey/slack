@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import io from 'socket.io-client';
+import * as FontAwesome from 'react-icons/lib/fa';
 import { ActionCreators } from '../../redux/action';
 import InputText from '../../component/InputText';
 import * as API from '../../redux/action/api';
 import * as Constant from '../../lib/constant';
 import ChatBubble from './bubble';
+import ChatLeftBar from './chat-left';
 import './index.css';
 
 
@@ -18,6 +20,7 @@ class Chat extends React.Component {
     super(props);
     this.state = {
       message: '',
+      isOpen: false,
     };
   }
 
@@ -100,14 +103,26 @@ class Chat extends React.Component {
     return `${week}, ${month} ${day}, ${time.getFullYear()}`;
   }
 
+  onToggleMore() {
+    this.setState({ isOpen: !this.state.isOpen });
+  }
+
   render() {
+    const { isOpen } = this.state;
     return (
       <div className="container">
         <div className="row full">
-            <div className="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 full-height">
+            <div className="chat_content col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 full-height">
               <div className="chat_container flex">
+                <ChatLeftBar isOpen={isOpen}/>
                 <div className="chat-header">
-                  <h2>Welcome, {this.props.me.username}</h2>
+                  <button
+                    onClick={this.onToggleMore.bind(this)}
+                    type="transparent"
+                    value="Log in">
+                      <FontAwesome.FaBars size={30} color="white"/>
+                  </button>
+                  <h2>{this.props.channelName}</h2>
                   <button
                     className="chat-logout-button"
                     onClick={this.onLogout.bind(this)}

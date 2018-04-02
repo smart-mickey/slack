@@ -17,13 +17,23 @@ class Login extends React.Component {
       isPasswordError: false,
       isConfirmError: false,
       isUsernameError: false,
-      email: 'litiyan2015@gmail.com',
-      password: 'Mickey2018',
-      username: 'TIYAN',
-      confirm: 'Mickey2018',
+      email: '',
+      password: '',
+      username: '',
+      confirm: '',
       reset: '',
       tabState: 'login',
+      uemail: '',
+      upassword: '',
     };
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   onClickTabButton(e) {
@@ -42,6 +52,7 @@ class Login extends React.Component {
   }
 
   showToast(msg, type) {
+    if (!this.mounted) return;
     const myColor = { background: 'green', text: '#FFFFFF' };
     if (type === 'error') {
       notify.show(msg, 'error', 5000, null);
@@ -58,24 +69,24 @@ class Login extends React.Component {
 
   signUpwithEmailPassword() {
     const {
-      username, email, password, confirm, isLoading,
+      username, uemail, upassword, confirm, isLoading,
     } = this.state;
     if (isLoading) return;
     else if (username === '') {
       this.setState({ errorState: 'signup-username' });
       return;
-    } else if (!this.validateEmail(email)) {
+    } else if (!this.validateEmail(uemail)) {
       this.setState({ errorState: 'signup-email' });
       return;
-    } else if (password.length < 8) {
+    } else if (upassword.length < 8) {
       this.setState({ errorState: 'signup-password' });
       return;
-    } else if (password !== confirm) {
+    } else if (upassword !== confirm) {
       this.setState({ errorState: 'signup-confirm' });
       return;
     }
     this.setState({ errorState: '', isLoading: true });
-    const param = `email=${email}&username=${username}&password=${password}`;
+    const param = `email=${uemail}&username=${username}&password=${upassword}`;
     this.props.register(param, (status, msg) => {
       if (status === 'error') {
         this.showToast(msg, 'error');
@@ -132,7 +143,7 @@ class Login extends React.Component {
   render() {
     const {
       tabState, hoverState, isLoading, errorState, email,
-      password, confirm, reset, username,
+      password, confirm, reset, username, upassword, uemail,
     } = this.state;
     return (
       <div className="container">
@@ -184,6 +195,7 @@ class Login extends React.Component {
                         errorText="Invalid email"
                         onChange={text => this.setState({ email: text })}
                         text={email}
+                        maxLength={40}
                       />
                       <InputText
                         placeholder="password"
@@ -191,6 +203,8 @@ class Login extends React.Component {
                         errorText="Password should be over 8 in length"
                         onChange={text => this.setState({ password: text })}
                         text={password}
+                        type="password"
+                        maxLength={20}
                       />
                       <button className="loginButton" onClick={() => this.signInwithEmailPassword()}>
                         Log In
@@ -215,20 +229,24 @@ class Login extends React.Component {
                         errorText="Please enter your username"
                         onChange={text => this.setState({ username: text })}
                         text={username}
+                        maxLength={20}
                       />
                       <InputText
                         placeholder="email"
                         isError={errorState === 'signup-email'}
                         errorText="Invalid email"
-                        onChange={text => this.setState({ email: text })}
-                        text={email}
+                        onChange={text => this.setState({ uemail: text })}
+                        text={uemail}
+                        maxLength={40}
                       />
                       <InputText
                         placeholder="password"
                         isError={errorState === 'signup-password'}
                         errorText="Password should be over 8 in length"
-                        onChange={text => this.setState({ password: text })}
-                        text={password}
+                        onChange={text => this.setState({ upassword: text })}
+                        text={upassword}
+                        type="password"
+                        maxLength={20}
                       />
                       <InputText
                         placeholder="confirm password"
@@ -236,6 +254,8 @@ class Login extends React.Component {
                         errorText="Confirm password is incorrect"
                         onChange={text => this.setState({ confirm: text })}
                         text={confirm}
+                        type="password"
+                        maxLength={20}
                       />
                       <button className="loginButton" onClick={() => this.signUpwithEmailPassword()}>
                         Sign Up

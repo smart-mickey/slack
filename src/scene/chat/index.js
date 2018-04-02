@@ -108,6 +108,7 @@ class Chat extends React.Component {
   }
 
   render() {
+    this.prevTime = '';
     const { isOpen } = this.state;
     return (
       <div className="container">
@@ -145,14 +146,10 @@ class Chat extends React.Component {
                         </ChatBubble>
                       );
                     }
+                    const temp = this.prevTime;
                     this.prevTime = time;
                     return (
                       <div key={chat.userId + chat.updated_at}>
-                        <div className="chat-time-line">
-                          <div/>
-                          <span>{time}</span>
-                          <div/>
-                        </div>
                         <ChatBubble
                           chat = {chat}
                           userId={chat.userId}
@@ -160,10 +157,26 @@ class Chat extends React.Component {
                         >
                           {chat.message}
                         </ChatBubble>
+                        {
+                          temp === '' ? null
+                          :
+                          <div className="chat-time-line">
+                            <div/>
+                            <span>{temp}</span>
+                            <div/>
+                          </div>
+                        }
                       </div>
                     );
                   })
                 }
+                <div>
+                  <div className="chat-time-line">
+                    <div/>
+                      <span>{this.prevTime}</span>
+                      <div/>
+                    </div>
+                  </div>
                 </div>
                 <div className="chat-input-container">
                   <textarea

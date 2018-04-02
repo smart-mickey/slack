@@ -170,13 +170,17 @@ class Chat extends React.Component {
                     );
                   })
                 }
-                <div>
-                  <div className="chat-time-line">
-                    <div/>
+                {
+                  this.prevTime === '' ? null
+                  :
+                  <div>
+                    <div className="chat-time-line">
+                      <div/>
                       <span>{this.prevTime}</span>
                       <div/>
                     </div>
-                  </div>
+                    </div>
+                }
                 </div>
                 <div className="chat-input-container">
                   <textarea

@@ -14,7 +14,7 @@ Frontend:
 * Redux (Router, Thunk)
 * ESlint + Babel
 
-![alt text](src/screenshot/main.png "Main chat screen")
+![alt text](src/screenshots/main.png "Main chat screen")
 
 ## Prerequisites
 

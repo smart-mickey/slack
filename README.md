@@ -14,6 +14,8 @@ Frontend:
 * Redux (Router, Thunk)
 * ESlint + Babel
 
+![alt text](src/screenshot/main.png "Main chat screen")
+
 ## Prerequisites
 
 You will need the following resources properly installed on the machine.

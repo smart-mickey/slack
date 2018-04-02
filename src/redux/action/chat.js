@@ -36,7 +36,7 @@ export const listenChatData = (channelName, timeFor) => (dispatch) => {
     .then(data => data.json())
     .then((res) => {
       if (res.status === 'error') {
-        alert(res.message);
+        console.log(res.message);
       } else {
         dispatch(setChatData(res.message));
       }

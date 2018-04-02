@@ -38,7 +38,7 @@ class ChatLeftBar extends React.Component {
 }
 
 ChatLeftBar.propTypes = {
-  isOpen: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

@@ -2,10 +2,12 @@
 
 const path = require('path');
 const express = require('express');
+const mongoose = require('mongoose');
 
 const app = express();
 const router = express.Router();
 const User = require('../models/user');
+const WorkSpace = require('../models/workspace');
 const Channel = require('../models/channel');
 
 const http = require('http').Server(app);
@@ -15,6 +17,50 @@ const hPort = process.env.PORT || 3002;
 
 http.listen(hPort, () => {
   console.log(`Socket listening on *:${hPort}`);
+});
+
+router.post('/setDatabase', (req, res) => {
+  const param = {
+    name: req.body.name,
+  };
+  console.log(`${param.name} Database is running`);
+  mongoose.connect(`mongodb://localhost/${param.name}`);
+});
+
+router.post('/checkWorkSpace', (req, res) => {
+  const displayName = req.body.name;
+  WorkSpace.findOne({ displayName })
+    .exec((err, workspace) => {
+      if (err) {
+        res.json({ status: 'error' });
+      } else if (!workspace) {
+        res.json({ status: 'error', message: `The workspace <${displayName}> is not exist.` });
+      } else {
+        const message = {
+          fullName: workspace.fullName,
+          displayName,
+          admin: workspace.admin,
+        };
+        res.json({ status: 'success', message });
+      }
+    });
+});
+
+router.post('/createWorkSpace', (req, res) => {
+  const param = {
+    fullName: req.body.fullname,
+    displayName: req.body.displayname,
+    admin: req.body.admin,
+    password: req.body.password,
+    updated_at: new Date().getTime(),
+  };
+  console.log(param);
+  WorkSpace.create(param, (error, workspace) => {
+    if (error) {
+      return res.json({ status: 'error', message: 'Already exist or Server Error' });
+    }
+    res.json({ status: 'success', message: workspace });
+  });
 });
 
 router.post('/register', (req, res) => {

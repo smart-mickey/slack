@@ -6,6 +6,11 @@ export const saveUserData = user => ({
   payload: user,
 });
 
+export const checkWorkspace = workspace => ({
+  type: types.CHECK_WORKSPACE,
+  payload: workspace,
+});
+
 export const login = (param, callback) => (dispatch) => {
   fetch(API.LOGIN, {
     method: 'POST',
@@ -52,3 +57,15 @@ export const register = (param, callback) => (dispatch) => {
     });
 };
 
+export function checkWorkSpace(param) {
+  return fetch(API.CHECK_WORKSPACE, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `name${param}`,
+  })
+    .then(response => response.json())
+    .then(data => data);
+}

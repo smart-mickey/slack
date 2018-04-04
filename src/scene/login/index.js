@@ -30,6 +30,7 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.props.checkWorkspace(this.props.params.workspace);
   }
 
   componentWillUnmount() {
@@ -64,7 +65,7 @@ class Login extends React.Component {
 
   gotoChatPage(msg) {
     localStorage.setItem('profile', JSON.stringify(msg));
-    browserHistory.push('/chat');
+    browserHistory.push(`/workspace/${this.props.params.workspace}/chat`);
   }
 
   signUpwithEmailPassword() {

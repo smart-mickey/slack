@@ -25,6 +25,7 @@ router.post('/setDatabase', (req, res) => {
   };
   console.log(`${param.name} Database is running`);
   mongoose.connect(`mongodb://localhost/${param.name}`);
+  res.json({ status: 'success' });
 });
 
 router.post('/checkWorkSpace', (req, res) => {
@@ -32,7 +33,7 @@ router.post('/checkWorkSpace', (req, res) => {
   WorkSpace.findOne({ displayName })
     .exec((err, workspace) => {
       if (err) {
-        res.json({ status: 'error' });
+        res.json({ status: 'error', message: 'Network Error' });
       } else if (!workspace) {
         res.json({ status: 'error', message: `The workspace <${displayName}> is not exist.` });
       } else {
@@ -59,7 +60,12 @@ router.post('/createWorkSpace', (req, res) => {
     if (error) {
       return res.json({ status: 'error', message: 'Already exist or Server Error' });
     }
-    res.json({ status: 'success', message: workspace });
+    const message = {
+      fullName: workspace.fullName,
+      displayName: workspace.displayName,
+      admin: workspace.admin,
+    };
+    res.json({ status: 'success', message });
   });
 });
 

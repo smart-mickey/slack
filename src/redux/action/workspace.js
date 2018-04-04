@@ -13,7 +13,7 @@ export const createWorkSpace = param => ({
 
 export const setDatabase = name => ({
   type: types.SET_DATABASE,
-  payload: `name=${name}`,
+  payload: name,
 });
 
 export function create_WorkSpace(param) {
@@ -30,14 +30,14 @@ export function create_WorkSpace(param) {
     .then(data => data);
 }
 
-export function set_Database(param) {
+export function set_Database(name) {
   return fetch(API.SET_DATABASE, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: param,
+    body: `name=${name}`,
   })
     .then(response => response.json())
     .then(data => data);

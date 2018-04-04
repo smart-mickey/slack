@@ -13,6 +13,7 @@ import Notifications from 'react-notify-toast';
 import CreateWorkSpace from './scene/workspace';
 import Login from './scene/login';
 import Chat from './scene/chat';
+import InvalidPage from './scene/invalid';
 import reducer from './redux/reducer/index';
 import mySaga from './redux/saga/index';
 import './App.css';
@@ -50,6 +51,7 @@ class App extends React.Component {
           <Route path="/workspace/:workspace/chat">
             <IndexRoute component={Chat} />
           </Route>
+          <Route path="*" component={InvalidPage} />
         </Router>
       </Provider>
     );

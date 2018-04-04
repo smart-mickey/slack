@@ -26,9 +26,11 @@ class WorkSpace extends React.Component {
     this.mounted = true;
     if (this.props.params.state === 'create') this.setState({ tabState: 'create' });
     else if (this.props.params.state === 'list') this.setState({ tabState: 'list' });
-    else {
+    else if (this.props.params.state === undefined) {
       this.setState({ tabState: 'list' });
-      browserHistory.push('/workspace/list');
+    } else {
+      console.log(this.props.params.state);
+      browserHistory.push('/invalid');
     }
     this.props.setDatabase('all-workspace');
   }

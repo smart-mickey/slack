@@ -11,8 +11,8 @@ const workspace = createReducer({}, {
   },
 });
 
-const database = createReducer({}, {
-  [types.SET_DATABASE](state, action) {
+const database = createReducer('', {
+  [types.SET_DATABASE_SUCCESS](state, action) {
     return action.payload.name;
   },
 });

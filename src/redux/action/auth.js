@@ -64,7 +64,7 @@ export function checkWorkSpace(param) {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `name${param}`,
+    body: `name=${param}`,
   })
     .then(response => response.json())
     .then(data => data);

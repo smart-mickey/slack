@@ -24,7 +24,8 @@ export function* createWorkspace(action) {
 export function* setDatabase(action) {
   try {
     const database = yield call(workspaceAction.set_Database, action.payload);
-    yield put({ type: types.SET_DATABASE, database });
+    console.log('Database', action.payload);
+    yield put({ type: types.SET_DATABASE_SUCCESS, message: action.payload });
   } catch (e) {
     yield put({ type: types.SET_DATABASE_FAILED, message: e.message });
   }

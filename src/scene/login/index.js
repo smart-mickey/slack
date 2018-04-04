@@ -30,7 +30,10 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    this.props.checkWorkspace(this.props.params.workspace);
+    this.props.setDatabase('all-workspace');
+    setTimeout(() => {
+      this.props.checkWorkspace(this.props.params.workspace);
+    }, 500);
   }
 
   componentWillUnmount() {

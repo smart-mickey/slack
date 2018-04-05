@@ -10,19 +10,13 @@ import * as workspaceAction from '../action/workspace';
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 export function* checkWorkspace(action) {
   try {
-    const database = yield call(workspaceAction.set_Database, 'all-workspace');
-    if (database.database === 'all-workspace') {
-      const result = yield call(authAction.checkWorkSpace, action.payload);
-      if (result.status === 'error') {
-        yield put({ type: types.CHECK_WORKSPACE_FAILED });
-        yield put({ type: types.ERROR_TEXT, payload: `The Workpace <${action.payload}> doesn't exist` });
-        browserHistory.push('/invalid');
-      } else {
-        yield put({ type: types.SET_WORKSPACE, workspace: result.message });
-        yield put({ type: types.SET_DATABASE, payload: result.message.displayName });
-      }
+    const result = yield call(authAction.checkWorkSpace, action.payload);
+    if (result.status === 'error') {
+      yield put({ type: types.CHECK_WORKSPACE_FAILED });
+      yield put({ type: types.ERROR_TEXT, payload: `The Workpace <${action.payload}> doesn't exist` });
+      browserHistory.push('/invalid');
     } else {
-      yield put({ type: types.CHECK_WORKSPACE, payload: action.payload });
+      yield put({ type: types.SET_WORKSPACE, workspace: result.message });
     }
   } catch (e) {
     yield put({ type: types.CHECK_WORKSPACE_FAILED });

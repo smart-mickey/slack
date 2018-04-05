@@ -7,7 +7,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // and create our instances
 const app = express();
-const router = require('./routes/index');
+const authRouter = require('./routes/auth');
+const chatRouter = require('./routes/chat');
+const workspaceRouter = require('./routes/workspace');
 // set our port to either a predetermined port number if you have set
 // it up, or 3001
 const port = process.env.API_PORT || 3001;
@@ -29,7 +31,9 @@ app.use((req, res, next) => {
 // now we can set the route path & initialize the API
 
 // Use our router configuration when we call /api
-app.use('/api', router);
+app.use('/api/auth', authRouter);
+app.use('/api/chat', chatRouter);
+app.use('/api/workspace', workspaceRouter);
 // starts the server and listens for requests
 app.listen(port, () => {
   console.log(`api running on port ${port}`);

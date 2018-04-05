@@ -30,7 +30,7 @@ class Chat extends React.Component {
     this.socket.on('message added', (channel) => {
       console.log(channel);
       // this.props.setChatData(channel.chat);
-      this.props.listenChatData(channelName, timeFor);
+      this.props.listenChatData(params.workspace, channelName, timeFor);
     });
     this.socket.on('Server error', (result) => {
       alert(result);
@@ -50,9 +50,8 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    const { channelName, timeFor } = this.props;
-    this.props.setDatabase(this.props.params.workspace);
-    this.props.listenChatData(channelName, timeFor);
+    const { channelName, timeFor, params } = this.props;
+    this.props.listenChatData(params.workspace, channelName, timeFor);
   }
 
   componentDidUpdate() {
@@ -115,8 +114,8 @@ class Chat extends React.Component {
     const { isOpen } = this.state;
     return (
       <div className="container">
-        <div className="row full">
-            <div className="chat_content col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 full-height">
+        <div className="row full-width full">
+            <div className="chat_content col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 full-height">
               <div className="chat_container flex">
                 <ChatLeftBar isOpen={isOpen}/>
                 <div className="chat-header">

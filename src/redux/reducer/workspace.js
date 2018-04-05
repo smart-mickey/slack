@@ -20,15 +20,6 @@ const allWorkspace = createReducer([], {
   },
 });
 
-const database = createReducer('', {
-  [types.SET_DATABASE_SUCCESS](state, action) {
-    return action.payload;
-  },
-  [types.SET_DATABASE_FAILED](state, action) {
-    return action.payload;
-  },
-});
-
 const creating = createReducer(false, {
   [types.CREATING_WORKSPACE](state, action) {
     return action.payload;
@@ -38,7 +29,6 @@ const creating = createReducer(false, {
 const workspaceReducer = combineReducers({
   workspace,
   allWorkspace,
-  database,
   creating,
 });
 

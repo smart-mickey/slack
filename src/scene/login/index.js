@@ -88,7 +88,7 @@ class Login extends React.Component {
       return;
     }
     this.setState({ errorState: '', isLoading: true });
-    const param = `email=${uemail}&username=${username}&password=${upassword}`;
+    const param = `email=${uemail}&username=${username}&password=${upassword}&workspace=${this.props.params.workspace}`;
     this.props.register(param, (status, msg) => {
       if (status === 'error') {
         this.showToast(msg, 'error');
@@ -110,7 +110,7 @@ class Login extends React.Component {
       return;
     }
     this.setState({ errorState: '', isLoading: true });
-    const param = `email=${email}&password=${password}`;
+    const param = `email=${email}&password=${password}&workspace=${this.props.params.workspace}`;
     this.props.login(param, (status, msg) => {
       if (status === 'error') {
         this.showToast(msg, 'error');
@@ -151,7 +151,7 @@ class Login extends React.Component {
       <div className="container">
         <Notifications />
         <div className="full-width">
-          <div className="col-xs-12 col-md-8 col-md-offset-2">
+          <div className="col-xs-12 col-sm-8 col-sm-offset-2">
             <center>
               <div className="login-form">
                 <div className="row">

@@ -28,8 +28,8 @@ export const sendMessage = (param, callback) => (dispatch) => {
     });
 };
 
-export const listenChatData = (channelName, timeFor) => (dispatch) => {
-  const url = `${API.FETCH_CHATS}/${channelName}/${timeFor}`;
+export const listenChatData = (workspace, channelName, timeFor) => (dispatch) => {
+  const url = `${API.FETCH_CHATS}/${workspace}/${channelName}/${timeFor}`;
   fetch(url, {
     method: 'GET',
   })

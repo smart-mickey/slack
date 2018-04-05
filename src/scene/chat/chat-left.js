@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as FontAwesome from 'react-icons/lib/fa';
+import { Link } from 'react-router';
 import { ActionCreators } from '../../redux/action';
 import './index.css';
 
@@ -31,7 +33,14 @@ class ChatLeftBar extends React.Component {
     const { isOpen, me } = this.props;
     return (
       <div className={isOpen ? 'chat-more-open' : 'chat-more'}>
-        Left Bar
+        <Link to={'/workspace/create'}>
+          <FontAwesome.FaPlus size={50} color="white"/>
+          <center>Add New WorkSpace</center>
+        </Link>
+        <Link to={'/workspace/list'}>
+          <FontAwesome.FaListAlt size={50} color="white"/>
+          <center>WorkSpace List</center>
+        </Link>
       </div>
     );
   }

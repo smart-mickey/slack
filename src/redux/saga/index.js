@@ -9,7 +9,6 @@ function* mySaga() {
       Allows concurrent fetches of user.
       */
   yield takeEvery(types.CREATE_WORKSPACE, workspace.createWorkspace);
-  yield takeEvery(types.SET_DATABASE, workspace.setDatabase);
   yield takeLatest(types.GET_WORKSPACE_LIST, workspace.getWorkspace);
   /*
       Alternatively you may use takeLatest.

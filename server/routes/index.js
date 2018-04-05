@@ -24,7 +24,7 @@ router.post('/setDatabase', (req, res) => {
     name: req.body.name,
   };
   console.log(`${param.name} Database is running`);
-  mongoose.connect(`mongodb://localhost/${param.name}`);
+  // mongoose.connect(`mongodb://localhost/${param.name}`);
   res.json({ status: 'success', database: param.name });
 });
 
@@ -119,18 +119,19 @@ const filterByTime = (chat, day) => {
 router.get('/fetchChatData/:channel/:day', (req, res) => {
   const channel_name = req.params.channel;
   const day = req.params.day * 86400000;
-
-  Channel.ChannelModel.findOne({ channel_name })
-    .exec((err, channel) => {
-      if (err) {
-        res.json({ status: 'error', message: 'Server error or the Chat room has been removed.' });
-      } else if (!channel) {
-        res.json({ status: 'error', message: 'The Chat room has been removed.' });
-      } else {
-        const filteredChat = filterByTime(channel.chat, day);
-        res.json({ status: 'success', message: filteredChat });
-      }
-    });
+  setTimeout(() => {
+    Channel.ChannelModel.findOne({ channel_name })
+      .exec((err, channel) => {
+        if (err) {
+          res.json({ status: 'error', message: 'Server error or the Chat room has been removed.' });
+        } else if (!channel) {
+          res.json({ status: 'error', message: 'The Chat room has been removed.' });
+        } else {
+          const filteredChat = filterByTime(channel.chat, day);
+          res.json({ status: 'success', message: filteredChat });
+        }
+      });
+  }, 500);
 });
 
 router.get('/getUserData/:userId', (req, res) => {

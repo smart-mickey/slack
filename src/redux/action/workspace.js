@@ -11,6 +11,10 @@ export const createWorkSpace = param => ({
   payload: param,
 });
 
+export const fetchWorkspaceList = () => ({
+  type: types.GET_WORKSPACE_LIST,
+});
+
 export const setDatabase = name => ({
   type: types.SET_DATABASE,
   payload: name,
@@ -30,15 +34,19 @@ export function create_WorkSpace(param) {
     .then(data => data);
 }
 
-export function set_Database(name) {
-  return fetch(API.SET_DATABASE, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `name=${name}`,
-  })
-    .then(response => response.json())
-    .then(data => data);
-}
+export const set_Database = name => fetch(API.SET_DATABASE, {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: `name=${name}`,
+})
+  .then(response => response.json())
+  .then(data => data);
+
+export const getWorkspace = () => fetch(API.GET_WORKSPACE, {
+  method: 'GET',
+})
+  .then(response => response.json())
+  .then(data => data);

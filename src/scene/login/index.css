@@ -21,7 +21,7 @@
     text-align: center;
     display: inline-block;
     min-width: 100px;
-    height: 30px;
+    min-height: 30px;
     background-color: transparent;
     border-color: transparent;
     outline: 0px;
@@ -34,7 +34,7 @@
     text-align: center;
     display: inline-block;
     min-width: 100px;
-    height: 30px;
+    min-height: 30px;
     background-color: transparent;
     border-color: transparent;
     outline: 0px;
@@ -95,4 +95,8 @@
 .forgotPassword {
     font-size: 1.4rem;
     color: #898E96;
+}
+
+.go-to-workspace-list {
+    margin-top: 30px
 }

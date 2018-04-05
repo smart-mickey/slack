@@ -16,10 +16,15 @@ class ChatBubble extends React.Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
     this.props.getUserInfo(this.props.userId, (user) => {
       if (user === '?') return;
-      this.setState({ name: user.username });
+      if (this.mounted) this.setState({ name: user.username });
     });
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
   simplifyName(name) {

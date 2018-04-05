@@ -11,9 +11,21 @@ const workspace = createReducer({}, {
   },
 });
 
+const allWorkspace = createReducer([], {
+  [types.GET_WORKSPACE_SUCCESS](state, action) {
+    return action.payload;
+  },
+  [types.GET_WORKSPACE_FAILED](state, action) {
+    return [];
+  },
+});
+
 const database = createReducer('', {
   [types.SET_DATABASE_SUCCESS](state, action) {
-    return action.payload.name;
+    return action.payload;
+  },
+  [types.SET_DATABASE_FAILED](state, action) {
+    return action.payload;
   },
 });
 
@@ -25,6 +37,9 @@ const creating = createReducer(false, {
 
 const workspaceReducer = combineReducers({
   workspace,
+  allWorkspace,
+  database,
+  creating,
 });
 
 export default workspaceReducer;

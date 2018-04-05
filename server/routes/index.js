@@ -25,26 +25,39 @@ router.post('/setDatabase', (req, res) => {
   };
   console.log(`${param.name} Database is running`);
   mongoose.connect(`mongodb://localhost/${param.name}`);
-  res.json({ status: 'success' });
+  res.json({ status: 'success', database: param.name });
 });
 
 router.post('/checkWorkSpace', (req, res) => {
   const displayName = req.body.name;
-  WorkSpace.findOne({ displayName })
-    .exec((err, workspace) => {
-      if (err) {
-        res.json({ status: 'error', message: 'Network Error' });
-      } else if (!workspace) {
-        res.json({ status: 'error', message: `The workspace <${displayName}> is not exist.` });
-      } else {
-        const message = {
-          fullName: workspace.fullName,
-          displayName,
-          admin: workspace.admin,
-        };
-        res.json({ status: 'success', message });
+  setTimeout(() => {
+    WorkSpace.findOne({ displayName })
+      .exec((err, workspace) => {
+        if (err) {
+          res.json({ status: 'error', message: 'Network Error' });
+        } else if (!workspace) {
+          res.json({ status: 'error', message: `The workspace <${displayName}> is not exist.` });
+        } else {
+          const message = {
+            fullName: workspace.fullName,
+            displayName,
+            admin: workspace.admin,
+          };
+          res.json({ status: 'success', message });
+        }
+      });
+  }, 500);
+});
+
+router.get('/getWorkSpace', (req, res) => {
+  setTimeout(() => {
+    WorkSpace.find((error, data) => {
+      if (error) {
+        return res.json({ status: 'error', message: 'Server Error' });
       }
+      return res.json({ status: 'success', message: data });
     });
+  }, 500);
 });
 
 router.post('/createWorkSpace', (req, res) => {

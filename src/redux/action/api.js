@@ -7,4 +7,5 @@ export const GET_USER_DATA = `${baseURL}/getUserData`;
 export const CREATE_WORKSPACE = `${baseURL}/createWorkSpace`;
 export const SET_DATABASE = `${baseURL}/setDatabase`;
 export const CHECK_WORKSPACE = `${baseURL}/checkWorkSpace`;
+export const GET_WORKSPACE = `${baseURL}/getWorkSpace`;
 

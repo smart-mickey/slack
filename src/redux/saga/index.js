@@ -10,6 +10,7 @@ function* mySaga() {
       */
   yield takeEvery(types.CREATE_WORKSPACE, workspace.createWorkspace);
   yield takeEvery(types.SET_DATABASE, workspace.setDatabase);
+  yield takeLatest(types.GET_WORKSPACE_LIST, workspace.getWorkspace);
   /*
       Alternatively you may use takeLatest.
 
@@ -17,6 +18,7 @@ function* mySaga() {
       dispatched while a fetch is already pending, that pending fetch is cancelled
       and only the latest one will be run.
     */
+
   yield takeLatest(types.CHECK_WORKSPACE, auth.checkWorkspace);
 }
 

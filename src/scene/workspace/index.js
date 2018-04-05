@@ -24,15 +24,15 @@ class WorkSpace extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.props.fetchWorkspaceList();
     if (this.props.params.state === 'create') this.setState({ tabState: 'create' });
     else if (this.props.params.state === 'list') this.setState({ tabState: 'list' });
     else if (this.props.params.state === undefined) {
       this.setState({ tabState: 'list' });
     } else {
       console.log(this.props.params.state);
-      browserHistory.push('/invalid');
+      browserHistory.push(`/workspace/${this.props.params.state}/auth`);
     }
-    this.props.setDatabase('all-workspace');
   }
 
   componentWillUnmount() {
@@ -67,8 +67,8 @@ class WorkSpace extends React.Component {
     return (
       <div className="container">
         <Notifications />
-        <div className="row full-width">
-          <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+        <div className="full-width">
+          <div className="col-xs-12 col-md-8 col-md-offset-2">
             <center>
               <div className="login-form">
                 <div className="row">
@@ -103,20 +103,22 @@ class WorkSpace extends React.Component {
                     }
                   </div>
                 </div>
+                <div className="row">
                 {
                   tabState === 'list' ?
-                  <div className="row">
+                  <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
                     <WorkSpaceList
                     />
                   </div>
                   : tabState === 'create' ?
-                  <div className="row">
+                  <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
                     <CreateWorkSpace
                         onState={isLoading => this.setState({ isLoading })}
                     />
                   </div>
                   : null
                 }
+                </div>
               </div>
             </center>
           </div>

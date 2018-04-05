@@ -24,10 +24,19 @@ export function* createWorkspace(action) {
 export function* setDatabase(action) {
   try {
     const database = yield call(workspaceAction.set_Database, action.payload);
-    console.log('Database', action.payload);
-    yield put({ type: types.SET_DATABASE_SUCCESS, message: action.payload });
+    yield put({ type: types.SET_DATABASE_SUCCESS, payload: action.payload });
   } catch (e) {
-    yield put({ type: types.SET_DATABASE_FAILED, message: e.message });
+    yield put({ type: types.SET_DATABASE_FAILED, payload: e.message });
+  }
+}
+
+export function* getWorkspace() {
+  try {
+    const database = yield call(workspaceAction.set_Database, 'all-workspace');
+    const workspaces = yield call(workspaceAction.getWorkspace);
+    yield put({ type: types.GET_WORKSPACE_SUCCESS, payload: workspaces.message });
+  } catch (e) {
+    yield put({ type: types.GET_WORKSPACE_FAILED, message: e.message });
   }
 }
 

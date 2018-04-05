@@ -18,8 +18,8 @@ class InvalidPage extends React.Component {
     return (
         <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
             <center>
-                <p className="invalid-text">Invalid Page!</p>
-                <Link to="/workspace/create">Check Workspace list</Link>
+                <p className="invalid-text">{this.props.errorText}</p>
+                <Link className="invalid-link" to="/workspace">Check Workspace list</Link>
             </center>
         </div>
     );
@@ -32,4 +32,5 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(state => ({
   me: state.authReducer.Me,
+  errorText: state.errorReducer.errorText,
 }), mapDispatchToProps)(InvalidPage);

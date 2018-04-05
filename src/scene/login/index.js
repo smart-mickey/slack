@@ -3,7 +3,7 @@ import Spinner from 'react-spin';
 import Notifications, { notify } from 'react-notify-toast';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, Link, IndexRoute } from 'react-router';
 import { ActionCreators } from '../../redux/action';
 import InputText from '../../component/InputText';
 
@@ -30,10 +30,7 @@ class Login extends React.Component {
 
   componentDidMount() {
     this.mounted = true;
-    this.props.setDatabase('all-workspace');
-    setTimeout(() => {
-      this.props.checkWorkspace(this.props.params.workspace);
-    }, 500);
+    this.props.checkWorkspace(this.props.params.workspace);
   }
 
   componentWillUnmount() {
@@ -67,6 +64,7 @@ class Login extends React.Component {
   }
 
   gotoChatPage(msg) {
+    msg.workspace = this.props.params.workspace;
     localStorage.setItem('profile', JSON.stringify(msg));
     browserHistory.push(`/workspace/${this.props.params.workspace}/chat`);
   }
@@ -152,8 +150,8 @@ class Login extends React.Component {
     return (
       <div className="container">
         <Notifications />
-        <div className="row full-width">
-          <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
+        <div className="full-width">
+          <div className="col-xs-12 col-md-8 col-md-offset-2">
             <center>
               <div className="login-form">
                 <div className="row">
@@ -192,7 +190,7 @@ class Login extends React.Component {
                   tabState === 'login' ?
                   <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-                      <p className="title">Log Into Your Account</p>
+                      <p className="title">{this.props.params.workspace} workspace</p>
                       <InputText
                         placeholder="email"
                         isError={errorState === 'login-email'}
@@ -220,13 +218,13 @@ class Login extends React.Component {
                           : null
                         }
                       </button>
-                      <p style={{ paddingTop: 30 }}><a className="forgotPassword" onClick={() => this.forgotPassword()}>Forgot Password?</a></p>
+                      <div className="go-to-workspace-list"><Link to={'/workspace'}>Go to workspace list</Link></div>
                     </div>
                   </div>
                   : tabState === 'signup' ?
                   <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-                      <p className="title">Create Your Slack Account</p>
+                    <p className="title">{this.props.params.workspace} workspace</p>
                       <InputText
                         placeholder="username"
                         isError={errorState === 'signup-username'}
@@ -271,6 +269,7 @@ class Login extends React.Component {
                           : null
                         }
                       </button>
+                      <div className="go-to-workspace-list"><Link to={'/workspace'}>Go to workspace list</Link></div>
                     </div>
                   </div>
                   :

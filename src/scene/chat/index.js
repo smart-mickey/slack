@@ -25,7 +25,7 @@ class Chat extends React.Component {
   }
 
   componentWillMount() {
-    const { channelName, timeFor } = this.props;
+    const { channelName, timeFor, params } = this.props;
     this.socket = io('http://localhost:3002');
     this.socket.on('message added', (channel) => {
       console.log(channel);
@@ -41,7 +41,9 @@ class Chat extends React.Component {
 
     const profile = localStorage.getItem('profile');
     if (profile == null) {
-      browserHistory.push('/');
+      browserHistory.push(`/workspace/${params.workspace}/auth`);
+    } else if (JSON.parse(profile).workspace !== params.workspace) {
+      browserHistory.push(`/workspace/${params.workspace}/auth`);
     } else {
       this.props.saveUserData(JSON.parse(profile));
     }
@@ -49,6 +51,7 @@ class Chat extends React.Component {
 
   componentDidMount() {
     const { channelName, timeFor } = this.props;
+    this.props.setDatabase(this.props.params.workspace);
     this.props.listenChatData(channelName, timeFor);
   }
 
@@ -84,7 +87,7 @@ class Chat extends React.Component {
 
   onLogout() {
     localStorage.removeItem('profile');
-    browserHistory.push('/');
+    browserHistory.push(`/workspace/${this.props.params.workspace}/auth`);
   }
 
   getDate(ts) {
@@ -217,4 +220,5 @@ export default connect(state => ({
   channelName: state.chatReducer.channelName,
   timeFor: state.chatReducer.timeFor,
   chatData: state.chatReducer.chatData,
+  workspace: state.workspaceReducer.workspace,
 }), mapDispatchToProps)(Chat);

@@ -10,19 +10,23 @@ import * as workspaceAction from '../action/workspace';
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 export function* checkWorkspace(action) {
   try {
-    // const advance = yield call(workspaceAction.set_Database, 'all-workspace');
-    const result = yield call(authAction.checkWorkSpace, action.payload);
-    console.log('Check WorkSpace: ', result);
-    if (result.status === 'error') {
-      yield put({ type: types.CREATE_WORKSPACE_FAILED });
-      browserHistory.push('/invalid');
+    const database = yield call(workspaceAction.set_Database, 'all-workspace');
+    if (database.database === 'all-workspace') {
+      const result = yield call(authAction.checkWorkSpace, action.payload);
+      if (result.status === 'error') {
+        yield put({ type: types.CHECK_WORKSPACE_FAILED });
+        yield put({ type: types.ERROR_TEXT, payload: `The Workpace <${action.payload}> doesn't exist` });
+        browserHistory.push('/invalid');
+      } else {
+        yield put({ type: types.SET_WORKSPACE, workspace: result.message });
+        yield put({ type: types.SET_DATABASE, payload: result.message.displayName });
+      }
     } else {
-      yield put({ type: types.SET_WORKSPACE, workspace: result.message });
-      yield put({ type: types.SET_DATABASE, payload: result.message.displayName });
+      yield put({ type: types.CHECK_WORKSPACE, payload: action.payload });
     }
   } catch (e) {
-    console.log(e.message);
-    yield put({ type: types.CREATE_WORKSPACE_FAILED });
+    yield put({ type: types.CHECK_WORKSPACE_FAILED });
+    yield put({ type: types.ERROR_TEXT, payload: e.message });
     browserHistory.push('/invalid');
   }
 }

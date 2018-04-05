@@ -82,63 +82,61 @@ class CreateWorkSpace extends React.Component {
       displayname, email, password, confirm, isLoading,
     } = this.state;
     return (
-        <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-            <center>
-                <p className="title">Create WorkSpace</p>
-                <InputText
-                    placeholder="Full name"
-                    isError={errorState === 'fullname'}
-                    errorText="Please enter your fullname"
-                    onChange={text => this.setState({ fullname: text })}
-                    text={fullname}
-                    maxLength={20}
-                />
-                <InputText
-                    placeholder="Display name"
-                    isError={errorState === 'displayname'}
-                    errorText="Please enter your display name"
-                    onChange={text => this.setState({ displayname: text })}
-                    text={displayname}
-                    maxLength={20}
-                />
-                <InputText
-                    placeholder="Admin's email"
-                    isError={errorState === 'email'}
-                    errorText="Invalid email"
-                    onChange={text => this.setState({ email: text })}
-                    text={email}
-                    maxLength={40}
-                />
-                <InputText
-                    placeholder="Password"
-                    isError={errorState === 'password'}
-                    errorText="Password should be over 8 in length"
-                    onChange={text => this.setState({ password: text })}
-                    text={password}
-                    maxLength={20}
-                    type="password"
-                />
-                <InputText
-                    placeholder="Confirm password"
-                    isError={errorState === 'confirm'}
-                    errorText="Confirm password is incorrect"
-                    onChange={text => this.setState({ confirm: text })}
-                    text={confirm}
-                    maxLength={20}
-                    type="password"
-                />
-                <button className="loginButton" onClick={() => this.CreateWorkSpace()}>
-                Create Workspace
-                {
-                    isLoading ?
-                    <div className="spinnerView">
-                        <Spinner config={{ width: 1, radius: 8, color: 'white' }} />
-                    </div>
-                    : null
-                }
-                </button>
-            </center>
-        </div>
+      <center>
+          <p className="title"></p>
+          <InputText
+              placeholder="Full name"
+              isError={errorState === 'fullname'}
+              errorText="Please enter your fullname"
+              onChange={text => this.setState({ fullname: text })}
+              text={fullname}
+              maxLength={20}
+          />
+          <InputText
+              placeholder="Display name"
+              isError={errorState === 'displayname'}
+              errorText="Please enter your display name"
+              onChange={text => this.setState({ displayname: text })}
+              text={displayname}
+              maxLength={20}
+          />
+          <InputText
+              placeholder="Admin's email"
+              isError={errorState === 'email'}
+              errorText="Invalid email"
+              onChange={text => this.setState({ email: text })}
+              text={email}
+              maxLength={40}
+          />
+          <InputText
+              placeholder="Password"
+              isError={errorState === 'password'}
+              errorText="Password should be over 8 in length"
+              onChange={text => this.setState({ password: text })}
+              text={password}
+              maxLength={20}
+              type="password"
+          />
+          <InputText
+              placeholder="Confirm password"
+              isError={errorState === 'confirm'}
+              errorText="Confirm password is incorrect"
+              onChange={text => this.setState({ confirm: text })}
+              text={confirm}
+              maxLength={20}
+              type="password"
+          />
+          <button className="loginButton" onClick={() => this.CreateWorkSpace()}>
+          Create Workspace
+          {
+              isLoading ?
+              <div className="spinnerView">
+                  <Spinner config={{ width: 1, radius: 8, color: 'white' }} />
+              </div>
+              : null
+          }
+          </button>
+      </center>
     );
   }
 }

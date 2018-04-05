@@ -3,7 +3,7 @@ import Spinner from 'react-spin';
 import Notifications, { notify } from 'react-notify-toast';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, Link, IndexRoute } from 'react-router';
 import { ActionCreators } from '../../redux/action';
 import InputText from '../../component/InputText';
 
@@ -22,10 +22,6 @@ class WorkSpaceList extends React.Component {
     this.mounted = true;
   }
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
   showToast(msg, type) {
     if (!this.mounted) return;
     const myColor = { background: 'green', text: '#FFFFFF' };
@@ -39,11 +35,16 @@ class WorkSpaceList extends React.Component {
 
   render() {
     return (
-        <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-            <center>
-                <p className="title">WorkSpace List</p>
-            </center>
-        </div>
+      <center>
+          <p className="title"></p>
+          <div className="workspace-listview">
+          {
+            this.props.allWorkspace.map(workspace => (
+              <p key={workspace.displayName}><Link className="workspace-list-item" to={`/workspace/${workspace.displayName}/auth`}>{workspace.displayName}</Link></p>
+            ))
+          }
+          </div>
+      </center>
     );
   }
 }
@@ -54,4 +55,5 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(state => ({
   me: state.authReducer.Me,
+  allWorkspace: state.workspaceReducer.allWorkspace,
 }), mapDispatchToProps)(WorkSpaceList);

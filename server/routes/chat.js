@@ -8,6 +8,12 @@ const io = require('socket.io')(http);
 const Channel = require('../models/channel');
 const User = require('../models/user');
 
+const hPort = process.env.PORT || 3002;
+
+http.listen(hPort, () => {
+  console.log(`Socket listening on *:${hPort}`);
+});
+
 const filterByTime = (chat, day) => {
   const CT = new Date().getTime();
   const result = [];
@@ -24,6 +30,7 @@ router.get('/fetchChatData/:workspace/:channel/:day', (req, res) => {
   const db = mongoose.connection;
   db.on('error', () => res.json({ message: 'Network Error' }));
   db.once('open', () => {
+    console.log(`${req.params.workspace} database is running`);
     const channel_name = req.params.channel;
     const day = req.params.day * 86400000;
     Channel.ChannelModel.findOne({ channel_name })
@@ -55,52 +62,46 @@ router.get('/getUserData/:userId', (req, res) => {
 });
 
 router.post('/sendMessage', (req, res) => {
-  const channel_name = req.body.channel;
-  const chatData = {
-    userId: req.body.userId,
-    message: req.body.message,
-    updated_at: new Date().getTime(),
-  };
-  Channel.ChannelModel.findOne({ channel_name })
-    .exec((err, channel) => {
-      if (err) {
-        res.json({ status: 'error', message: 'Server error' });
-      } else if (!channel) {
-        const chat = [];
-        chat.push(chatData);
-        Channel.ChannelModel.create({
-          channel_name: 'general',
-          chat,
-          member: [chatData.userId],
-        }, (error, data) => {
-          if (error) {
-            return res.json({ message: 'Server error' });
-          }
-          res.json({ message: 'success', data: data.chat });
-        });
-      } else {
-        const temp = channel;
-        const chat_history = channel.chat;
-        chat_history.push(chatData);
-        temp.chat = chat_history;
-        Channel.ChannelModel.findOneAndUpdate(
-          { channel_name },
-          { $set: { chat: chat_history } },
-          (e, doc) => {
-            if (e) {
-              return res.json({ message: 'Server error' });
-            }
-          },
-        );
-        res.json({ status: 'success', message: 'Sent message successfully!' });
-      }
-    });
+  mongoose.connect(`mongodb://localhost/${req.body.workspace}`);
+  const db = mongoose.connection;
+  db.on('error', () => res.json({ status: 'error', message: 'This workspace has been removed' }));
+  db.once('open', () => {
+    const channel_name = req.body.channel;
+    const chatData = {
+      userId: req.body.userId,
+      message: req.body.message,
+      updated_at: new Date().getTime(),
+    };
+    Channel.ChannelModel.findOne({ channel_name })
+      .exec((err, channel) => {
+        if (err) {
+          res.json({ status: 'error', message: 'Server error' });
+        } else if (!channel) {
+          res.json({ status: 'error', message: 'The Chat room has been removed.' });
+        } else {
+          const temp = channel;
+          const chat_history = channel.chat;
+          chat_history.push(chatData);
+          temp.chat = chat_history;
+          Channel.ChannelModel.findOneAndUpdate(
+            { channel_name },
+            { $set: { chat: chat_history } },
+            (e, doc) => {
+              if (e) {
+                return res.json({ status: 'error', message: 'Server error' });
+              }
+            },
+          );
+          res.json({ status: 'success', message: 'Sent message successfully!' });
+        }
+      });
+  });
 });
 
 io.on('connection', (socket) => {
   console.log('Socket connected');
   socket.on('message added', (param) => {
-    io.sockets.emit('message added', {});
+    io.sockets.emit('message added', { workspace: param.workspace });
   });
 });
 

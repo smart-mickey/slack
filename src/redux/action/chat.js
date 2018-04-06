@@ -6,6 +6,16 @@ export const saveUserData = user => ({
   payload: user,
 });
 
+export const setChatData = chat => ({
+  type: types.CHANNEL_CHAT_DATA,
+  payload: chat,
+});
+
+export const setChatStatus = status => ({
+  type: types.SET_CHAT_STATUS,
+  payload: status,
+});
+
 export const sendMessage = (param, callback) => (dispatch) => {
   fetch(API.SEND_MESSAGE, {
     method: 'POST',
@@ -37,7 +47,9 @@ export const listenChatData = (workspace, channelName, timeFor) => (dispatch) =>
     .then((res) => {
       if (res.status === 'error') {
         console.log(res.message);
+        dispatch(setChatStatus(res.message));
       } else {
+        dispatch(setChatStatus(''));
         dispatch(setChatData(res.message.reverse()));
       }
     })
@@ -60,14 +72,9 @@ export const getUserInfo = (userId, callback) => (dispatch) => {
       } else {
         callback(res.data);
       }
-      console.log('Chat Data: ', JSON.stringify(res));
     })
     .catch((e) => {
       console.log('Chat Data Error: ', e.toString());
     });
 };
 
-export const setChatData = chat => ({
-  type: types.CHANNEL_CHAT_DATA,
-  payload: chat,
-});

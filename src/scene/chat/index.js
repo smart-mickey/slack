@@ -27,16 +27,9 @@ class Chat extends React.Component {
   componentWillMount() {
     const { channelName, timeFor, params } = this.props;
     this.socket = io('http://localhost:3002');
-    this.socket.on('message added', (channel) => {
-      console.log(channel);
-      // this.props.setChatData(channel.chat);
-      this.props.listenChatData(params.workspace, channelName, timeFor);
-    });
-    this.socket.on('Server error', (result) => {
-      alert(result);
-    });
-    this.socket.on('Channel Removed', (result) => {
-      alert(result);
+    this.socket.on('message added', (data) => {
+      console.log('workspace', data.workspace);
+      this.props.listenChatData(data.workspace, channelName, timeFor);
     });
 
     const profile = localStorage.getItem('profile');
@@ -66,15 +59,17 @@ class Chat extends React.Component {
   onSendMessage() {
     const { message } = this.state;
     if (message.replace(/ /g, '').length === 0) return;
-    const param = `userId=${this.props.me._id}&channel=general&message=${this.state.message}`;
+    const param = `userId=${this.props.me._id}&channel=general&message=${this.state.message}&workspace=${this.props.params.workspace}`;
     this.props.sendMessage(param, (status, data) => {
-      if (status === 'error') alert(data);
-      else {
+      if (status === 'error') {
+        this.props.setChatStatus(data);
+      } else {
         setTimeout(() => {
           this.setState({ message: '' });
           this.socket.emit(
             'message added',
             {
+              workspace: this.props.params.workspace,
               msg: this.state.message,
               channelName: this.props.channelName,
             },
@@ -114,6 +109,7 @@ class Chat extends React.Component {
     const { isOpen } = this.state;
     return (
       <div className="container">
+        <Notifications />
         <div className="row full-width full">
             <div className="chat_content col-xs-12 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 full-height">
               <div className="chat_container flex">
@@ -134,6 +130,7 @@ class Chat extends React.Component {
                   </button>
                 </div>
                 <div className="full chat-message-view" id="messageList">
+                <center>{this.props.chatStatus}</center>
                 {
                   this.props.chatData.map((chat) => {
                     const time = this.getDate(chat.updated_at);
@@ -184,6 +181,7 @@ class Chat extends React.Component {
                     </div>
                 }
                 </div>
+
                 <div className="chat-input-container">
                   <textarea
                     ref={(ref) => {
@@ -219,5 +217,6 @@ export default connect(state => ({
   channelName: state.chatReducer.channelName,
   timeFor: state.chatReducer.timeFor,
   chatData: state.chatReducer.chatData,
+  chatStatus: state.chatReducer.chatStatus,
   workspace: state.workspaceReducer.workspace,
 }), mapDispatchToProps)(Chat);

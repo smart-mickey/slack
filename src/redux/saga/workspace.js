@@ -10,11 +10,13 @@ export function* createWorkspace(action) {
   try {
     yield put({ type: types.CREATING_WORKSPACE, payload: true });
     const workspace = yield call(workspaceAction.create_WorkSpace, action.payload);
-    console.log('workspace: ', workspace);
-    if (workspace.status === 'error') notify.show(workspace.message, 'error', 5000, null);
-    yield put({ type: types.SET_WORKSPACE, workspace });
     yield put({ type: types.CREATING_WORKSPACE, payload: false });
-    browserHistory.push(`/workspace/${workspace.message.displayName}/auth`);
+    if (workspace.status === 'error') {
+      notify.show(workspace.message, 'error', 5000, null);
+    } else {
+      yield put({ type: types.SET_WORKSPACE, workspace: workspace.message });
+      browserHistory.push(`/workspace/${workspace.message.displayName}/auth`);
+    }
   } catch (e) {
     notify.show(e.message, 'error', 5000, null);
     yield put({ type: types.CREATING_WORKSPACE, payload: true });

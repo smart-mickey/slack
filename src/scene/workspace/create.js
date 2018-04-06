@@ -15,7 +15,6 @@ class CreateWorkSpace extends React.Component {
     super(props);
     this.state = {
       tabState: 'list',
-      isLoading: false,
       hoverState: '',
       fullname: '',
       errorState: '',
@@ -40,10 +39,9 @@ class CreateWorkSpace extends React.Component {
   }
 
   CreateWorkSpace() {
-    this.setState({ isLoading: true });
     this.props.onState(true);
     const {
-      fullname, displayname, email, password, confirm, isLoading,
+      fullname, displayname, email, password, confirm,
     } = this.state;
     if (fullname === '') {
       this.setState({ errorState: 'fullname' });
@@ -65,22 +63,12 @@ class CreateWorkSpace extends React.Component {
     this.props.createWorkSpace(param);
   }
 
-  showToast(msg, type) {
-    if (!this.mounted) return;
-    const myColor = { background: 'green', text: '#FFFFFF' };
-    if (type === 'error') {
-      notify.show(msg, 'error', 5000, null);
-    } else {
-      notify.show(msg, 'custom', 5000, myColor);
-    }
-    this.setState({ isLoading: false });
-  }
-
   render() {
     const {
       tabState, hoverState, errorState, fullname,
-      displayname, email, password, confirm, isLoading,
+      displayname, email, password, confirm,
     } = this.state;
+    const { isLoading } = this.props;
     return (
       <center>
           <p className="title"></p>
@@ -151,4 +139,5 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(state => ({
   me: state.authReducer.Me,
+  isLoading: state.workspaceReducer.isLoading,
 }), mapDispatchToProps)(CreateWorkSpace);

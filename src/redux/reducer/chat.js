@@ -20,10 +20,17 @@ const chatData = createReducer([], {
   },
 });
 
+const chatStatus = createReducer('', {
+  [types.SET_CHAT_STATUS](state, action) {
+    return action.payload;
+  },
+});
+
 const authReducer = combineReducers({
   channelName,
   timeFor,
   chatData,
+  chatStatus,
 });
 
 export default authReducer;

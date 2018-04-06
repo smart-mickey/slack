@@ -20,7 +20,7 @@ const allWorkspace = createReducer([], {
   },
 });
 
-const creating = createReducer(false, {
+const isLoading = createReducer(false, {
   [types.CREATING_WORKSPACE](state, action) {
     return action.payload;
   },
@@ -29,7 +29,7 @@ const creating = createReducer(false, {
 const workspaceReducer = combineReducers({
   workspace,
   allWorkspace,
-  creating,
+  isLoading,
 });
 
 export default workspaceReducer;

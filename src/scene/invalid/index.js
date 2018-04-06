@@ -6,6 +6,8 @@ import { ActionCreators } from '../../redux/action';
 
 import './index.css';
 
+const InvalidIcon = require('../../resource/image/invalid.png');
+
 class InvalidPage extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ class InvalidPage extends React.Component {
     return (
         <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
             <center>
+                <img src={InvalidIcon} className="invalid-icon"/>
                 <p className="invalid-text">{this.props.errorText}</p>
                 <Link className="invalid-link" to="/workspace">Check Workspace list</Link>
             </center>

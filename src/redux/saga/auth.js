@@ -13,7 +13,7 @@ export function* checkWorkspace(action) {
     const result = yield call(authAction.checkWorkSpace, action.payload);
     if (result.status === 'error') {
       yield put({ type: types.CHECK_WORKSPACE_FAILED });
-      yield put({ type: types.ERROR_TEXT, payload: `The Workpace <${action.payload}> doesn't exist` });
+      yield put({ type: types.ERROR_TEXT, payload: `The Workpace "${action.payload}" doesn't exist` });
       browserHistory.push('/invalid');
     } else {
       yield put({ type: types.SET_WORKSPACE, workspace: result.message });

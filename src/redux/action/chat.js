@@ -50,6 +50,7 @@ export const listenChatData = (workspace, channelName, timeFor) => (dispatch) =>
         dispatch(setChatStatus(res.message));
       } else {
         dispatch(setChatStatus(''));
+        if (res.message.length === 0) dispatch(setChatStatus("No messages, let's start chat"));
         dispatch(setChatData(res.message.reverse()));
       }
     })

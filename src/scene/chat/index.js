@@ -79,7 +79,8 @@ class Chat extends React.Component {
   onSendMessage() {
     const { message } = this.state;
     if (message.replace(/ /g, '').length === 0) return;
-    const param = `userId=${this.props.me._id}&channel=general&message=${this.state.message}&workspace=${this.props.params.workspace}`;
+    const msg = message.replace(/\r?\n/g, '<br>');
+    const param = `userId=${this.props.me._id}&channel=general&message=${msg}&workspace=${this.props.params.workspace}`;
     this.props.sendMessage(param, (status, data) => {
       if (status === 'error') {
         this.props.setChatStatus(data);
@@ -90,7 +91,7 @@ class Chat extends React.Component {
             'message added',
             {
               workspace: this.props.params.workspace,
-              msg: this.state.message,
+              msg,
               channelName: this.props.channelName,
             },
           );

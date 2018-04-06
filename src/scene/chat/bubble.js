@@ -35,6 +35,13 @@ class ChatBubble extends React.Component {
     return letter[0].substring(0, 1).toUpperCase() + letter[1].substring(0, 1).toUpperCase();
   }
 
+  componentDidUpdate() {
+    const { chat } = this.props;
+    const s = chat.message;
+    const htmlObject = document.getElementById(chat.userId + chat.updated_at);
+    htmlObject.innerHTML = s;
+  }
+
   render() {
     const { me, userId, chat } = this.props;
     const theme = me._id === userId ? '#5555AA' : 'green';
@@ -44,7 +51,7 @@ class ChatBubble extends React.Component {
         <div className="chat-bubble-name" style={{ backgroundColor: theme }}><span>{this.simplifyName(this.state.name)}</span></div>
         <div className="chat-bubble-message full">
           <p className="chat-bubble-fullname" style={{ color: theme }}>{me._id === userId ? 'You' : this.state.name}</p>
-          <p className="chat-message">{this.props.chat.message}</p>
+          <p id={chat.userId + chat.updated_at} className="chat-message"></p>
         </div>
           <Moment element='span' className="chat-bubble-time">{`${new Date(chat.updated_at)}`}</Moment>
       </div>

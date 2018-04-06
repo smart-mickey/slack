@@ -221,6 +221,9 @@ class Chat extends React.Component {
                       Send
                   </button>
                 </div>
+                <div className="chat-input-bottom-text">
+                  Press Ctrl + Enter to Send Message
+                </div>
               </div>
             </div>
         </div>

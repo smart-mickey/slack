@@ -199,6 +199,13 @@
     color: #BBB
 }
 
+.chat-input-bottom-text {
+    background: #353537;
+    color: #888;
+    padding:5px 0px 0px 5px;
+    font-size: 12px
+}
+
 @media (max-width: 768px){
     .chat-more-open {
         position: absolute;

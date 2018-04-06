@@ -45,6 +45,26 @@ class Chat extends React.Component {
   componentDidMount() {
     const { channelName, timeFor, params } = this.props;
     this.props.listenChatData(params.workspace, channelName, timeFor);
+    document.addEventListener('keydown', this._handleKeyDown.bind(this));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this._handleKeyDown.bind(this));
+  }
+
+  _handleKeyDown(event) {
+    console.log(event.keyCode);
+    switch (event.keyCode) {
+      case 13:
+        if (this.pressCtrl) this.onSendMessage();
+        break;
+      case 17:
+        this.pressCtrl = true;
+        break;
+      default:
+        this.pressCtrl = false;
+        break;
+    }
   }
 
   componentDidUpdate() {

@@ -39,7 +39,6 @@ class CreateWorkSpace extends React.Component {
   }
 
   CreateWorkSpace() {
-    this.props.onState(true);
     const {
       fullname, displayname, email, password, confirm,
     } = this.state;
@@ -84,7 +83,7 @@ class CreateWorkSpace extends React.Component {
               placeholder="Display name"
               isError={errorState === 'displayname'}
               errorText="Please enter your display name"
-              onChange={text => this.setState({ displayname: text })}
+              onChange={text => this.setState({ displayname: text.replace(/ /g, '') })}
               text={displayname}
               maxLength={20}
           />
@@ -130,7 +129,7 @@ class CreateWorkSpace extends React.Component {
 }
 
 CreateWorkSpace.propTypes = {
-  onState: PropTypes.func.isRequired,
+
 };
 
 function mapDispatchToProps(dispatch) {

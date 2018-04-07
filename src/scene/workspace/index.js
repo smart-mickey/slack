@@ -17,7 +17,6 @@ class WorkSpace extends React.Component {
     super(props);
     this.state = {
       tabState: 'list',
-      isLoading: false,
       hoverState: '',
     };
   }
@@ -40,7 +39,7 @@ class WorkSpace extends React.Component {
   }
 
   onClickTabButton(e) {
-    if (this.state.isLoading) return;
+    if (this.props.isLoading) return;
     const title = e.target.value;
     if (title === 'list') {
       this.setState({ tabState: 'list' });
@@ -49,17 +48,6 @@ class WorkSpace extends React.Component {
       this.setState({ tabState: 'create' });
       browserHistory.push('/workspace/create/');
     }
-  }
-
-  showToast(msg, type) {
-    if (!this.mounted) return;
-    const myColor = { background: 'green', text: '#FFFFFF' };
-    if (type === 'error') {
-      notify.show(msg, 'error', 5000, null);
-    } else {
-      notify.show(msg, 'custom', 5000, myColor);
-    }
-    this.setState({ isLoading: false });
   }
 
   render() {
@@ -112,9 +100,7 @@ class WorkSpace extends React.Component {
                   </div>
                   : tabState === 'create' ?
                   <div className="col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2">
-                    <CreateWorkSpace
-                        onState={isLoading => this.setState({ isLoading })}
-                    />
+                    <CreateWorkSpace />
                   </div>
                   : null
                 }
@@ -136,4 +122,5 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(state => ({
   me: state.authReducer.Me,
+  isLoading: state.workspaceReducer.isLoading,
 }), mapDispatchToProps)(WorkSpace);

@@ -32,3 +32,19 @@ export function* getWorkspace() {
   }
 }
 
+export function* checkWorkSpaceLink(action) {
+  try {
+    console.log(action.payload);
+    const result = yield call(workspaceAction.check_WorkSpace_Link, action.payload);
+    console.log(result);
+    if (result.status === 'error') {
+      notify.show(result.message, 'error', 5000, null);
+    } else {
+      const myColor = { background: 'green', text: '#FFFFFF' };
+      notify.show('The workspace link has been sent to your email, Please check your email', 'custom', 5000, myColor);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+

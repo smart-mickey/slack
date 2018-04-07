@@ -7,4 +7,5 @@ export const GET_USER_DATA = `${baseURL}/chat/getUserData`;
 export const CREATE_WORKSPACE = `${baseURL}/workspace/createWorkSpace`;
 export const CHECK_WORKSPACE = `${baseURL}/workspace/checkWorkSpace`;
 export const GET_WORKSPACE = `${baseURL}/workspace/getWorkSpace`;
+export const CHECK_WORKSPACE_LINK = `${baseURL}/workspace/getWorkSpaceLink`;
 

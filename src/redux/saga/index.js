@@ -10,6 +10,7 @@ function* mySaga() {
       */
   yield takeEvery(types.CREATE_WORKSPACE, workspace.createWorkspace);
   yield takeLatest(types.GET_WORKSPACE_LIST, workspace.getWorkspace);
+  yield takeEvery(types.CHECK_WORKSPACE_LINK, workspace.checkWorkSpaceLink);
   /*
       Alternatively you may use takeLatest.
 

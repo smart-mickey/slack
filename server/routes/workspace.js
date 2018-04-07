@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 
 const router = express.Router();
 const User = require('../models/user');
@@ -88,6 +89,70 @@ router.post('/createWorkSpace', (req, res) => {
       };
       res.json({ status: 'success', message });
     });
+  });
+});
+
+const sendEmail = (email, link) => {
+  nodemailer.createTestAccount((err, account) => {
+    console.log(email);
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: account.user, // generated ethereal user
+        pass: account.pass,
+      },
+    });
+
+    // setup email data with unicode symbols
+    const mailOptions = {
+      from: 'litian19901120@gmail.com', // sender address
+      to: email, // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Here is your workspace link', // plain text body
+      html: link, // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log('Message sent: %s', info.messageId);
+      // Preview only available when sending through an Ethereal account
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    });
+  });
+};
+
+
+router.post('/getWorkSpaceLink', (req, res) => {
+  mongoose.connect('mongodb://localhost/all-workspace');
+  const db = mongoose.connection;
+  db.on('error', () => res.json({ message: 'Network Error' }));
+  db.once('open', () => {
+    const param = {
+      admin: req.body.email,
+    };
+    console.log(param.admin);
+    WorkSpace.findOne(param)
+      .exec((err, workspace) => {
+        if (err) {
+          res.json({ status: 'error', message: 'Network Error' });
+        } else if (!workspace) {
+          res.json({ status: 'error', message: 'You have no your own workspace' });
+        } else {
+          // send workspace link to the email
+          console.log(`sending workspace link to ${param.admin}`);
+          console.log(`workspace link is /workspace/${workspace.displayName}`);
+          sendEmail(param.admin, `http://localhost:3000/workspace/${workspace.displayName}`);
+          res.json({ status: 'success' });
+        }
+      });
   });
 });
 
